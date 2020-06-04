@@ -16,6 +16,7 @@ public class ExpenseBuilder {
     private double amount;
     private Date createDate;
     private Date expenseDate;
+    private String splitRatio;
 
     public Expense build(){
         return new Expense(this);
@@ -51,13 +52,26 @@ public class ExpenseBuilder {
         return this;
     }
 
-    public ExpenseBuilder setCreateDate(String createDate) throws ParseException {
-        this.createDate = new SimpleDateFormat("dd/MM/yyyy").parse(createDate);
+    public ExpenseBuilder setSplitRatio(String splitRatio) {
+        this.splitRatio = splitRatio;
         return this;
     }
 
-    public ExpenseBuilder setExpenseDate(String expenseDate) throws ParseException {
-        this.expenseDate = new SimpleDateFormat("dd/MM/yyyy").parse(expenseDate);
+    public ExpenseBuilder setCreateDate(String createDate) {
+        try {
+            this.createDate = new SimpleDateFormat("dd/MM/yyyy").parse(createDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
+    public ExpenseBuilder setExpenseDate(String expenseDate) {
+        try {
+            this.expenseDate = new SimpleDateFormat("dd/MM/yyyy").parse(expenseDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return this;
     }
 
@@ -91,5 +105,9 @@ public class ExpenseBuilder {
 
     public Date getExpenseDate() {
         return expenseDate;
+    }
+
+    public String getSplitRatio() {
+        return splitRatio;
     }
 }

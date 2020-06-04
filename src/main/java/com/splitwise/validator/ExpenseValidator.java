@@ -5,7 +5,7 @@ import com.splitwise.bo.Expense;
 public class ExpenseValidator {
 
     //TODO
-    public static boolean validateExpense(Expense expense) {
-        return true;
+    public static String validateExpense(Expense expense) {
+        return "";
     }
 }

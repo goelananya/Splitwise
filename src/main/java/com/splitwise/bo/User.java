@@ -15,4 +15,19 @@ public class User {
         this.balanceBookId = userBuilder.getBalanceBookId();
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getBalanceBookId() {
+        return balanceBookId;
+    }
 }

@@ -14,4 +14,7 @@ public class UniqueIdGenerator {
         return "";
     }
 
+    public static String generateBalanceId() { return "";}
+
+    public static String generateBalanceBookId() { return "";}
 }

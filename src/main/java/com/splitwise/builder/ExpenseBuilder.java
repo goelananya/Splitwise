@@ -5,12 +5,11 @@ import com.splitwise.bo.Expense;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class ExpenseBuilder {
     private String expenseId;
     private String createdBy;
-    private List<String> participantUsers;
+    private String participantUsers;
     private String message;
     private String currency;
     private double amount;
@@ -32,7 +31,7 @@ public class ExpenseBuilder {
         return this;
     }
 
-    public ExpenseBuilder setParticipantUsers(List<String> participantUsers) {
+    public ExpenseBuilder setParticipantUsers(String participantUsers) {
         this.participantUsers = participantUsers;
         return this;
     }
@@ -47,8 +46,8 @@ public class ExpenseBuilder {
         return this;
     }
 
-    public ExpenseBuilder setAmount(double amount) {
-        this.amount = amount;
+    public ExpenseBuilder setAmount(String amount) {
+        this.amount = Double.parseDouble(amount);
         return this;
     }
 
@@ -83,7 +82,7 @@ public class ExpenseBuilder {
         return createdBy;
     }
 
-    public List<String> getParticipantUsers() {
+    public String getParticipantUsers() {
         return participantUsers;
     }
 
@@ -109,5 +108,20 @@ public class ExpenseBuilder {
 
     public String getSplitRatio() {
         return splitRatio;
+    }
+
+    @Override
+    public String toString() {
+        return "ExpenseBuilder{" +
+                "expenseId='" + expenseId + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", participantUsers='" + participantUsers + '\'' +
+                ", message='" + message + '\'' +
+                ", currency='" + currency + '\'' +
+                ", amount=" + amount +
+                ", createDate=" + createDate +
+                ", expenseDate=" + expenseDate +
+                ", splitRatio='" + splitRatio + '\'' +
+                '}';
     }
 }

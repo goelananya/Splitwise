@@ -1,7 +1,9 @@
 package com.splitwise.builder;
 
 import com.splitwise.bo.Transaction;
+import com.splitwise.util.UniqueIdGenerator;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class TransactionBuilder {
@@ -12,13 +14,13 @@ public class TransactionBuilder {
     private String message;
     private double amount;
 
-    public TransactionBuilder setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
+    public TransactionBuilder setTransactionDate() {
+        this.transactionDate = Calendar.getInstance().getTime();
         return this;
     }
 
-    public TransactionBuilder setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public TransactionBuilder setTransactionId() {
+        this.transactionId = UniqueIdGenerator.generateTransactionId();
         return this;
     }
 

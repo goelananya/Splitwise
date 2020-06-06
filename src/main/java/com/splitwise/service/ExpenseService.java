@@ -1,56 +1,57 @@
 package com.splitwise.service;
 
-import com.splitwise.bo.Balance;
 import com.splitwise.bo.Expense;
-import com.splitwise.dao.BalanceDao;
 import com.splitwise.dao.ExpenseDao;
+import com.splitwise.exception.UserNotFoundException;
+import com.splitwise.util.SplitWiseConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ExpenseService {
 
-
-    private final ExpenseDao expenseDao;
-    private final BalanceService balanceService;
+    private static final Logger logger = LoggerFactory.getLogger(ExpenseService.class);
+    private static ExpenseDao expenseDao;
+    private static BalanceService balanceService;
 
     @Autowired
-    public ExpenseService(@Qualifier("fakeDao") ExpenseDao expenseDao, BalanceService balanceService) {
+    public ExpenseService(ExpenseDao expenseDao, BalanceService balanceService) {
         this.balanceService = balanceService;
         this.expenseDao = expenseDao;
     }
-    /**
-     * @param expense
-     * @return
-     */
-    public int addExpense(Expense expense){
-//        return expenseDao.insertExpense(expense);
-        String payee = expense.getCreatedBy();
-        String ratio = expense.getSplitRatio();
-        String[] borrowers = expense.getParticipantUsers().split(",");
-        System.out.println("|||||||||||||||||||||HERE||||||||||||||||||||||||||||||||||||");
-        for(String borrower: borrowers) {
-            Balance balance = null;// = BalanceService.getBalanceBetweenUsers(payee, borrower);
-            if(balance==null) {
-                balance = new Balance(payee, borrower, getShare(expense.getSplitRatio(), expense.getAmount(), 1));
-                System.out.println("|||||||||||||||||||||HERE|||||||||||||||||||||HERE|||||||||||||||");
-                balanceService.addBalance(balance);
 
-                //add new balance object
-                //add balanceid to balancebook
-            }
-            else {
-                //update balance book
-            }
+    public Expense addExpense(Expense expense) throws UserNotFoundException {
+        logger.info("Updating expense table with".concat(expense.toString()));
+        expenseDao.save(expense);
+        logger.info("Successfully updated expense table with".concat(expense.toString()));
+        String payee = expense.getCreatedBy();
+        List<String> borrowerList = expense.getParticipantUsersList();
+        List<Double> share = getParticipantShare(expense.getSplitRatio(), expense.getAmount());
+        for (int i = 0; i < borrowerList.size(); i++) {
+            logger.info("Updating balance for:".concat(payee).concat(SplitWiseConstants.SEPARATOR).concat(borrowerList.get(i)));
+            logger.info(borrowerList.get(i).concat("need to pay").concat(Double.toString(share.get(i))));
+            balanceService.updateBalance(payee, borrowerList.get(i), share.get(i));
         }
-        return 0;
+        return expense;
     }
 
-    public static Double getShare(String ratio, Double amount, int index){
-        //TODO
-        return 10.00;
+    public List<Double> getParticipantShare(String ratio, Double amount) {
+        String[] arr = ratio.split(":");
+        List<Double> shareList = new ArrayList<>();
+        int count = arr.length;
+        Double total = 0.0;
+        for (String str : arr) {
+            total = total + Double.parseDouble(str);
+        }
+        for (String str : arr) {
+            shareList.add(Double.parseDouble(str) * amount / total);
+        }
+        return shareList;
     }
 
 }

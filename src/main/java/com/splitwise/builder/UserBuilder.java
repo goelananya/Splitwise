@@ -1,6 +1,7 @@
 package com.splitwise.builder;
 
 import com.splitwise.bo.User;
+import com.splitwise.util.UniqueIdGenerator;
 
 public class UserBuilder {
     private String userName;
@@ -39,8 +40,8 @@ public class UserBuilder {
         return balanceBookId;
     }
 
-    public UserBuilder setBalanceBookId(String balanceBookId) {
-        this.balanceBookId = balanceBookId;
+    public UserBuilder setBalanceBookId() {
+        this.balanceBookId = UniqueIdGenerator.generateBalanceBookId();
         return this;
     }
 

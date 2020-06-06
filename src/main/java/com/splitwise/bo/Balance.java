@@ -3,15 +3,12 @@ package com.splitwise.bo;
 import com.splitwise.util.UniqueIdGenerator;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Balance {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long balanceId;
+    private String balanceId;
     private String userOne;
     private String userTwo;
     private Double amount;
@@ -20,13 +17,14 @@ public class Balance {
         this.userOne = user1;
         this.userTwo = user2;
         this.amount = amount;
+        this.balanceId = UniqueIdGenerator.generateBalanceId();
     }
 
     protected Balance() {
 
     }
 
-    public Long getBalanceId() {
+    public String getBalanceId() {
         return balanceId;
     }
 
@@ -52,5 +50,16 @@ public class Balance {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Balance{" +
+                "balanceId='" + balanceId + '\'' +
+                ", userOne='" + userOne + '\'' +
+                ", userTwo='" + userTwo + '\'' +
+                ", amount=" + amount +
+                '}';
     }
 }

@@ -30,10 +30,12 @@ public class ExpenseService {
         String payee = expense.getCreatedBy();
         String ratio = expense.getSplitRatio();
         String[] borrowers = expense.getParticipantUsers().split(",");
+        System.out.println("|||||||||||||||||||||HERE||||||||||||||||||||||||||||||||||||");
         for(String borrower: borrowers) {
-            Balance balance = BalanceService.getBalanceBetweenUsers(payee, borrower);
+            Balance balance = null;// = BalanceService.getBalanceBetweenUsers(payee, borrower);
             if(balance==null) {
                 balance = new Balance(payee, borrower, getShare(expense.getSplitRatio(), expense.getAmount(), 1));
+                System.out.println("|||||||||||||||||||||HERE|||||||||||||||||||||HERE|||||||||||||||");
                 balanceService.addBalance(balance);
 
                 //add new balance object
@@ -48,7 +50,7 @@ public class ExpenseService {
 
     public static Double getShare(String ratio, Double amount, int index){
         //TODO
-        return null;
+        return 10.00;
     }
 
 }

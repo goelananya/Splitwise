@@ -1,19 +1,11 @@
 package com.splitwise.dao;
 
 import com.splitwise.bo.Balance;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface BalanceDao {
-    int insertBalance(UUID id, Balance balance);
-
-    default int  insertBalance(Balance balance) {
-        UUID id = UUID.randomUUID();
-        return insertBalance(id, balance);
-    }
-
-    Balance getBalanceById(String balanceId) {
-
-    }
+public interface BalanceDao extends CrudRepository<Balance, Long> {
+    Balance findByBalanceId(Long balanceId);
 
 }

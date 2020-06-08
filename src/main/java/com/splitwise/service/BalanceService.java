@@ -29,7 +29,7 @@ public class BalanceService {
         this.balanceBookService = balanceBookService;
     }
 
-    public Balance getBalanceById(String balanceId) {
+    public Balance getBalanceById(Long balanceId) {
         return balanceDao.findByBalanceId(balanceId);
     }
 
@@ -45,7 +45,7 @@ public class BalanceService {
             balance = new Balance(userTwo, userOne, amount);
             addBalance(balance);
             logger.info(balance.toString().concat(":Added to balance table"));
-            logger.info(balance.getBalanceId().concat(":Adding to balance book"));
+            logger.info(balance.getBalanceId() + ":Adding to balance book");
             BalanceBook bookOne = balanceBookService.getBalanceBookByBookId(userService.getUser(userOne).getBalanceBookId());
             bookOne.addBalanceId(balance.getBalanceId());
             logger.info("Balance book updated for:".concat(userOne));
@@ -74,7 +74,7 @@ public class BalanceService {
         Balance balance = null;
         for (String balanceId : balanceIdList) {
             if (balanceId.equals("")) return null;
-            Balance bal = getBalanceById(balanceId);
+            Balance bal = getBalanceById(Long.parseLong(balanceId));
             balance = (bal.getUserOne().equals(userOne) || bal.getUserTwo().equals(userOne)) ? bal : null;
             if (balance != null) return balance;
         }
@@ -83,11 +83,11 @@ public class BalanceService {
 
     public List<Balance> getBalanceListForUser(String username) throws UserNotFoundException {
         List<Balance> balanceList = new ArrayList<>();
-        String balanceBookId = userService.getUser(username).getBalanceBookId();
-        logger.info("{username, balance bookId}".concat(username).concat(balanceBookId));
+        Long balanceBookId = userService.getUser(username).getBalanceBookId();
+        logger.info("{username, balance bookId}".concat(username) + balanceBookId);
         BalanceBook book = balanceBookService.getBalanceBookByBookId(balanceBookId);
         for (String balanceId : book.getBalanceIdList()) {
-            balanceList.add(getBalanceById(balanceId));
+            balanceList.add(getBalanceById(Long.parseLong(balanceId)));
         }
         return balanceList;
     }

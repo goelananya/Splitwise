@@ -27,7 +27,6 @@ public class ExpenseService {
 
     public Expense addExpense(Expense expense) throws UserNotFoundException {
         logger.info("Updating expense table with".concat(expense.toString()));
-        expenseDao.save(expense);
         logger.info("Successfully updated expense table with".concat(expense.toString()));
         String payee = expense.getCreatedBy();
         List<String> borrowerList = expense.getParticipantUsersList();
@@ -37,6 +36,7 @@ public class ExpenseService {
             logger.info(borrowerList.get(i).concat("need to pay").concat(Double.toString(share.get(i))));
             balanceService.updateBalance(payee, borrowerList.get(i), share.get(i));
         }
+        expenseDao.save(expense);
         return expense;
     }
 

@@ -1,14 +1,14 @@
 package com.splitwise.bo;
 
-import com.splitwise.util.UniqueIdGenerator;
-
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class Balance {
     @Id
-    private String balanceId;
+    @GeneratedValue
+    private Long balanceId;
     private String userOne;
     private String userTwo;
     private Double amount;
@@ -17,14 +17,14 @@ public class Balance {
         this.userOne = user1;
         this.userTwo = user2;
         this.amount = amount;
-        this.balanceId = UniqueIdGenerator.generateBalanceId();
+        //this.balanceId = UniqueIdGenerator.generateBalanceId();
     }
 
     protected Balance() {
 
     }
 
-    public String getBalanceId() {
+    public Long getBalanceId() {
         return balanceId;
     }
 

@@ -1,19 +1,19 @@
 package com.splitwise.bo;
 
 import com.splitwise.builder.UserBuilder;
-import com.splitwise.util.UniqueIdGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class User {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(unique = true)
     private String username;
     private String email;
     private String phoneNumber;
-    private String balanceBookId;
+    private Long balanceBookId;
 
     protected User() {
     }
@@ -23,10 +23,9 @@ public class User {
         this.email = userBuilder.getEmail();
         this.phoneNumber = userBuilder.getPhoneNumber();
         this.balanceBookId = userBuilder.getBalanceBookId();
-        this.id = UniqueIdGenerator.generateUserId();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -43,7 +42,7 @@ public class User {
         return phoneNumber;
     }
 
-    public String getBalanceBookId() {
+    public Long getBalanceBookId() {
         return balanceBookId;
     }
 

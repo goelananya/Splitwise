@@ -1,13 +1,12 @@
 package com.splitwise.builder;
 
 import com.splitwise.bo.User;
-import com.splitwise.util.UniqueIdGenerator;
 
 public class UserBuilder {
     private String userName;
     private String email;
     private String phoneNumber;
-    private String balanceBookId;
+    private Long balanceBookId;
 
     public String getUserName() {
         return userName;
@@ -36,12 +35,12 @@ public class UserBuilder {
         return this;
     }
 
-    public String getBalanceBookId() {
+    public Long getBalanceBookId() {
         return balanceBookId;
     }
 
-    public UserBuilder setBalanceBookId() {
-        this.balanceBookId = UniqueIdGenerator.generateBalanceBookId();
+    public UserBuilder setBalanceBookId(Long balanceBookId) {
+        this.balanceBookId = balanceBookId;
         return this;
     }
 

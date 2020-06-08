@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Arrays;
 import java.util.List;
@@ -13,34 +14,40 @@ import java.util.List;
 @Entity
 public class BalanceBook {
     @Id
-    private String balanceBookId;
+    @GeneratedValue
+    private Long balanceBookId;
     private String balanceIdList;
 
     private static final Logger logger = LoggerFactory.getLogger(BalanceService.class);
 
-    protected BalanceBook() {
-    }
-
-    public BalanceBook(String bookId) {
-        this.balanceBookId = bookId;
+    public BalanceBook() {
         this.balanceIdList = "";
     }
 
     public List<String> getBalanceIdList() {
-        if (balanceIdList.equals("") || balanceIdList == null) {
-            logger.info("Balance book is empty for:".concat(balanceBookId));
+/*        if (balanceIdList.equals("") || balanceIdList == null) {
+            logger.info("Balance book is empty for:"+balanceBookId);
         } else {
-            logger.info(this.balanceIdList.concat("BalanceId list for:").concat(this.balanceBookId));
-        }
+            logger.info(this.balanceIdList.concat("BalanceId list for:"+this.balanceBookId));
+        }*/
         return Arrays.asList(balanceIdList.split(","));
     }
 
-    public void addBalanceId(String balanceId) {
-        logger.info(balanceId.concat(":balance adding to balancebook:").concat(this.balanceBookId));
-        if (balanceIdList.length() == 0) balanceIdList = balanceId;
-        else this.balanceIdList = this.balanceIdList.concat(SplitWiseConstants.SEPARATOR).concat(balanceId);
-        logger.info(balanceId.concat(":balance added to balancebook:").concat(this.balanceBookId));
+    public void addBalanceId(Long balanceId) {
+        logger.info(balanceId + ":balance adding to balancebook:" + this.balanceBookId);
+        if (balanceIdList.length() == 0) balanceIdList = Long.toString(balanceId);
+        else
+            this.balanceIdList = this.balanceIdList.concat(SplitWiseConstants.SEPARATOR).concat(Long.toString(balanceId));
+        logger.info(balanceId + ":balance added to balancebook:" + this.balanceBookId);
         logger.info("Updated balance book:".concat(this.toString()));
+    }
+
+    public Long getBalanceBookId() {
+        return balanceBookId;
+    }
+
+    public void setBalanceBookId(Long balanceBookId) {
+        this.balanceBookId = balanceBookId;
     }
 
     @Override

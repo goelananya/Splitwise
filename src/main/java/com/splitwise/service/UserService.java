@@ -2,7 +2,9 @@ package com.splitwise.service;
 
 import com.splitwise.bo.BalanceBook;
 import com.splitwise.bo.User;
+import com.splitwise.builder.UserBuilder;
 import com.splitwise.dao.UserDao;
+import com.splitwise.exception.UserExistsException;
 import com.splitwise.exception.UserNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +31,12 @@ public class UserService {
         return user;
     }
 
-    public User addUser(User user) {
-        BalanceBook book = new BalanceBook(user.getBalanceBookId());
-        balanceBookService.addBalanceBook(book);
-        userDao.save(user);
-        logger.info(user.toString().concat("Added to db"));
-        return user;
+    public User addUser(UserBuilder userBuilder) throws UserExistsException {
+        if (userDao.findByUsername(userBuilder.getUserName()) != null)
+            throw new UserExistsException("User Exists. PLease choose another username");
+        BalanceBook book = balanceBookService.addBalanceBook(new BalanceBook());
+        userBuilder.setBalanceBookId(book.getBalanceBookId());
+        User user = userBuilder.build();
+        return userDao.save(user);
     }
 }

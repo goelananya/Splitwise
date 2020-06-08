@@ -4,6 +4,6 @@ import com.splitwise.bo.BalanceBook;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BalanceBookDao extends CrudRepository<BalanceBook, String> {
-    BalanceBook findByBalanceBookId(String balanceBookId);
+    BalanceBook findByBalanceBookId(Long balanceBookId);
 
 }

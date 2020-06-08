@@ -3,13 +3,15 @@ package com.splitwise.bo;
 import com.splitwise.builder.TransactionBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
 public class Transaction {
     @Id
-    private String transactionId;
+    @GeneratedValue
+    private Long transactionId;
     private Date transactionDate;
     private String payeeId;
     private String receiverId;
@@ -25,10 +27,10 @@ public class Transaction {
         this.receiverId = builder.getRecieverId();
         this.amount = builder.getAmount();
         this.message = builder.getMessage();
-        this.transactionId = builder.getTransactionId();
+//        this.transactionId = builder.getTransactionId();
     }
 
-    public String getTransactionId() {
+    public Long getTransactionId() {
         return transactionId;
     }
 

@@ -2,9 +2,9 @@ package com.splitwise.bo;
 
 import com.splitwise.builder.ExpenseBuilder;
 import com.splitwise.util.SplitWiseConstants;
-import com.splitwise.util.UniqueIdGenerator;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,7 +14,8 @@ import java.util.List;
 public class Expense {
 
     @Id
-    private String expenseId;
+    @GeneratedValue
+    private Long expenseId;
     private String createdBy;
     private String participantUsersList;
     private String splitRatio;
@@ -34,10 +35,9 @@ public class Expense {
         this.createDate = expenseBuilder.getCreateDate();
         this.expenseDate = expenseBuilder.getExpenseDate();
         this.splitRatio = expenseBuilder.getSplitRatio();
-        this.expenseId = UniqueIdGenerator.generateExpenseId();
     }
 
-    public String getExpenseId() {
+    public Long getExpenseId() {
         return expenseId;
     }
 

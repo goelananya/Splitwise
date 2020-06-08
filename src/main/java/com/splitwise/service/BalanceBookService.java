@@ -21,17 +21,17 @@ public class BalanceBookService {
         this.balanceBookDao = balanceBookDao;
     }
 
-    public BalanceBook getBalanceBookByBookId(String balanceBookId) {
-        logger.info("Searching for balance book with id:".concat(balanceBookId));
+    public BalanceBook getBalanceBookByBookId(Long balanceBookId) {
+        logger.info("Searching for balance book with id:" + balanceBookId);
         BalanceBook book = balanceBookDao.findByBalanceBookId(balanceBookId);
         logger.info("Found Balance Book for given id:".concat(book.toString()));
         return book;
     }
 
-    public int addBalanceBook(BalanceBook balanceBook) {
-        balanceBookDao.save(balanceBook);
+    public BalanceBook addBalanceBook(BalanceBook balanceBook) {
+        balanceBook = balanceBookDao.save(balanceBook);
         logger.info("balance book added as:".concat(balanceBook.toString()));
-        return 1;
+        return balanceBook;
     }
 
     public List<BalanceBook> getBalanceBooksForAllUsers() {

@@ -2,12 +2,12 @@ package com.splitwise.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.splitwise.bo.Expense;
 import com.splitwise.builder.ExpenseBuilder;
 import com.splitwise.exception.UserNotFoundException;
 import com.splitwise.service.ExpenseService;
 import com.splitwise.util.SplitWiseConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +27,20 @@ public class ExpenseController {
     }
 
     @PostMapping
-    private Expense createExpense(@RequestBody String param) throws JsonProcessingException, UserNotFoundException {
+    private ResponseEntity createExpense(@RequestBody String param) throws JsonProcessingException, UserNotFoundException {
         Map<String, String> expenseParams = new ObjectMapper().readValue(param, Map.class);
-        return expenseService.addExpense(new ExpenseBuilder().setAmount(expenseParams.get(SplitWiseConstants.AMOUNT))
-                .setMessage(expenseParams.get(SplitWiseConstants.MESSAGE))
-                .setCreatedBy(expenseParams.get(SplitWiseConstants.CREATED_BY))
-                .setParticipantUsers(expenseParams.get(SplitWiseConstants.PARTICIPANTS))
-                .setExpenseDate(expenseParams.get(SplitWiseConstants.EXPENSE_DATE))
-                .setCreateDate()
-                .setExpenseId()
-                .setSplitRatio(expenseParams.get(SplitWiseConstants.SPLIT_RATIO)).build());
+        try {
+            expenseService.addExpense(new ExpenseBuilder().setAmount(expenseParams.get(SplitWiseConstants.AMOUNT))
+                    .setMessage(expenseParams.get(SplitWiseConstants.MESSAGE))
+                    .setCreatedBy(expenseParams.get(SplitWiseConstants.CREATED_BY))
+                    .setParticipantUsers(expenseParams.get(SplitWiseConstants.PARTICIPANTS))
+                    .setExpenseDate(expenseParams.get(SplitWiseConstants.EXPENSE_DATE))
+                    .setCreateDate()
+                    .setExpenseId()
+                    .setSplitRatio(expenseParams.get(SplitWiseConstants.SPLIT_RATIO)).build());
+            return ResponseEntity.ok("Expense added");
+        } catch (Exception exp) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
     }
 }

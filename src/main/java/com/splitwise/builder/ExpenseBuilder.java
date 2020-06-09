@@ -2,12 +2,16 @@ package com.splitwise.builder;
 
 import com.splitwise.bo.Expense;
 import com.splitwise.util.UniqueIdGenerator;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+@ToString
+@Getter
 public class ExpenseBuilder {
     private String expenseId;
     private String createdBy;
@@ -64,47 +68,5 @@ public class ExpenseBuilder {
             e.printStackTrace();
         }
         return this;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public String getParticipantUsers() {
-        return participantUsers;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public Date getExpenseDate() {
-        return expenseDate;
-    }
-
-    public String getSplitRatio() {
-        return splitRatio;
-    }
-
-    @Override
-    public String toString() {
-        return "ExpenseBuilder{" +
-                "expenseId='" + expenseId + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", participantUsers='" + participantUsers + '\'' +
-                ", message='" + message + '\'' +
-                ", amount=" + amount +
-                ", createDate=" + createDate +
-                ", expenseDate=" + expenseDate +
-                ", splitRatio='" + splitRatio + '\'' +
-                '}';
     }
 }

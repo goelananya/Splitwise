@@ -2,6 +2,8 @@ package com.splitwise.bo;
 
 import com.splitwise.service.BalanceService;
 import com.splitwise.util.SplitWiseConstants;
+import lombok.Getter;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
+@Getter
+@ToString
 public class BalanceBook {
     @Id
     @GeneratedValue
@@ -25,12 +29,9 @@ public class BalanceBook {
     }
 
     public List<String> getBalanceIdList() {
-/*        if (balanceIdList.equals("") || balanceIdList == null) {
-            logger.info("Balance book is empty for:"+balanceBookId);
-        } else {
-            logger.info(this.balanceIdList.concat("BalanceId list for:"+this.balanceBookId));
-        }*/
-        return Arrays.asList(balanceIdList.split(","));
+        logger.info(this.balanceIdList.concat("BalanceId list for:" + this.balanceBookId));
+        if (balanceIdList.equals("")) return null;
+        else return Arrays.asList(balanceIdList.split(","));
     }
 
     public void addBalanceId(Long balanceId) {
@@ -40,21 +41,5 @@ public class BalanceBook {
             this.balanceIdList = this.balanceIdList.concat(SplitWiseConstants.SEPARATOR).concat(Long.toString(balanceId));
         logger.info(balanceId + ":balance added to balancebook:" + this.balanceBookId);
         logger.info("Updated balance book:".concat(this.toString()));
-    }
-
-    public Long getBalanceBookId() {
-        return balanceBookId;
-    }
-
-    public void setBalanceBookId(Long balanceBookId) {
-        this.balanceBookId = balanceBookId;
-    }
-
-    @Override
-    public String toString() {
-        return "BalanceBook{" +
-                "balanceBookId='" + balanceBookId + '\'' +
-                ", balanceIdList='" + balanceIdList + '\'' +
-                '}';
     }
 }

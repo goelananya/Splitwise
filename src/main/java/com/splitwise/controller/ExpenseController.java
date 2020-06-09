@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-@RequestMapping("splitwise/expense")
+@RequestMapping(SplitWiseConstants.EXPENSE_ENDPOINT)
 @RestController
 public class ExpenseController {
 
@@ -39,7 +39,7 @@ public class ExpenseController {
                     .setExpenseId()
                     .setSplitRatio(expenseParams.get(SplitWiseConstants.SPLIT_RATIO)).build());
             return ResponseEntity.ok("Expense added");
-        } catch (Exception exp) {
+        } catch (UserNotFoundException exp) {
             return ResponseEntity.badRequest().body("User not found");
         }
     }

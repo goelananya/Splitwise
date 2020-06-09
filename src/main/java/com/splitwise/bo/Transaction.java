@@ -1,6 +1,8 @@
 package com.splitwise.bo;
 
 import com.splitwise.builder.TransactionBuilder;
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
+@Getter
+@ToString
 public class Transaction {
     @Id
     @GeneratedValue
@@ -27,42 +31,5 @@ public class Transaction {
         this.receiverId = builder.getRecieverId();
         this.amount = builder.getAmount();
         this.message = builder.getMessage();
-//        this.transactionId = builder.getTransactionId();
-    }
-
-    public Long getTransactionId() {
-        return transactionId;
-    }
-
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
-
-    public String getPayeeId() {
-        return payeeId;
-    }
-
-    public String getReceiverId() {
-        return receiverId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "transactionId='" + transactionId + '\'' +
-                ", transactionDate=" + transactionDate +
-                ", payeeId='" + payeeId + '\'' +
-                ", recieverId='" + receiverId + '\'' +
-                ", message='" + message + '\'' +
-                ", amount=" + amount +
-                '}';
     }
 }

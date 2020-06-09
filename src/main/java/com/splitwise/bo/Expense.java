@@ -2,6 +2,8 @@ package com.splitwise.bo;
 
 import com.splitwise.builder.ExpenseBuilder;
 import com.splitwise.util.SplitWiseConstants;
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Getter
+@ToString
 public class Expense {
 
     @Id
@@ -37,49 +41,7 @@ public class Expense {
         this.splitRatio = expenseBuilder.getSplitRatio();
     }
 
-    public Long getExpenseId() {
-        return expenseId;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
     public List<String> getParticipantUsersList() {
         return Arrays.asList(participantUsersList.split(SplitWiseConstants.SEPARATOR));
-    }
-
-    public String getSplitRatio() {
-        return splitRatio;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public Date getExpenseDate() {
-        return expenseDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Expense{" +
-                "expenseId='" + expenseId + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", participantUsers='" + participantUsersList + '\'' +
-                ", splitRatio='" + splitRatio + '\'' +
-                ", message='" + message + '\'' +
-                ", amount=" + amount +
-                ", createDate=" + createDate +
-                ", expenseDate=" + expenseDate +
-                '}';
     }
 }

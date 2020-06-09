@@ -1,10 +1,14 @@
 package com.splitwise.bo;
 
 import com.splitwise.builder.UserBuilder;
+import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,37 +27,5 @@ public class User {
         this.email = userBuilder.getEmail();
         this.phoneNumber = userBuilder.getPhoneNumber();
         this.balanceBookId = userBuilder.getBalanceBookId();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public Long getBalanceBookId() {
-        return balanceBookId;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", balanceBookId='" + balanceBookId + '\'' +
-                '}';
     }
 }

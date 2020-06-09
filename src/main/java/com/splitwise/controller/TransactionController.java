@@ -2,6 +2,7 @@ package com.splitwise.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.splitwise.bo.Transaction;
 import com.splitwise.builder.TransactionBuilder;
 import com.splitwise.exception.UserNotFoundException;
 import com.splitwise.service.TransactionService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-@RequestMapping("splitwise/transaction")
+@RequestMapping(SplitWiseConstants.TRANSACTION_ENDPOINT)
 @RestController
 public class TransactionController {
 
@@ -28,15 +29,17 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity addTransaction(@RequestBody String param) throws JsonProcessingException, UserNotFoundException {
-        Map<String, String> transactionParams = new ObjectMapper().readValue(param, Map.class);
+        Map<String, String> paramMap = new ObjectMapper().readValue(param, Map.class);
         try {
-            transactionService.addTransaction(new TransactionBuilder().setPayeeId(transactionParams.get(SplitWiseConstants.PAYEE))
-                    .setRecieverId(transactionParams.get(SplitWiseConstants.RECEIVER))
-                    .setAmount(Double.parseDouble(transactionParams.get(SplitWiseConstants.AMOUNT)))
-                    .setMessage(transactionParams.get(SplitWiseConstants.MESSAGE))
+            Transaction transaction = transactionService.addTransaction(new TransactionBuilder().setPayeeId(paramMap.get(SplitWiseConstants.PAYEE))
+                    .setRecieverId(paramMap.get(SplitWiseConstants.RECEIVER))
+                    .setAmount(Double.parseDouble(paramMap.get(SplitWiseConstants.AMOUNT)))
+                    .setMessage(paramMap.get(SplitWiseConstants.MESSAGE))
                     .setTransactionId().setTransactionDate().build());
+            if (transaction == null)
+                return ResponseEntity.ok("Transaction not recorded. You do not have any pending balance!");
             return ResponseEntity.ok("Success!");
-        } catch (Exception e) {
+        } catch (UserNotFoundException e) {
             return ResponseEntity.badRequest().body("User not found");
         }
     }

@@ -3,7 +3,6 @@ package com.splitwise.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.splitwise.bo.Balance;
-import com.splitwise.exception.UserNotFoundException;
 import com.splitwise.service.BalanceService;
 import com.splitwise.util.SplitWiseConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("splitwise/balance")
+@RequestMapping(SplitWiseConstants.BALANCE_ENDPOINT)
 @RestController
 public class BalanceController {
 
@@ -28,11 +27,12 @@ public class BalanceController {
     }
 
     @GetMapping
-    private ResponseEntity getUserBal(@RequestBody String param) throws JsonProcessingException, UserNotFoundException {
-        Map<String, String> expenseParams = new ObjectMapper().readValue(param, Map.class);
+    private ResponseEntity getUserBal(@RequestBody String param) throws JsonProcessingException {
+        Map<String, String> paramMap = new ObjectMapper().readValue(param, Map.class);
         try {
-            List<Balance> balanceList = balanceService.getBalanceListForUser(expenseParams.get(SplitWiseConstants.USERNAME));
-            return ResponseEntity.ok(balanceList);
+            List<Balance> balanceList = balanceService.getBalanceListForUser(paramMap.get(SplitWiseConstants.USERNAME));
+            if (balanceList == null) return ResponseEntity.ok("You have no pending balance with any user!");
+            else return ResponseEntity.ok(balanceList);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("User not found");
         }

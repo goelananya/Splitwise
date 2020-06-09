@@ -2,10 +2,12 @@ package com.splitwise.builder;
 
 import com.splitwise.bo.Transaction;
 import com.splitwise.util.UniqueIdGenerator;
+import lombok.Getter;
 
 import java.util.Calendar;
 import java.util.Date;
 
+@Getter
 public class TransactionBuilder {
     private Date transactionDate;
     private String transactionId;
@@ -42,30 +44,6 @@ public class TransactionBuilder {
     public TransactionBuilder setAmount(double amount) {
         this.amount = amount;
         return this;
-    }
-
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public String getPayeeId() {
-        return payeeId;
-    }
-
-    public String getRecieverId() {
-        return recieverId;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public double getAmount() {
-        return amount;
     }
 
     public Transaction build() {

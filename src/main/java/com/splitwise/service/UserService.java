@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -39,4 +41,17 @@ public class UserService {
         User user = userBuilder.build();
         return userDao.save(user);
     }
+
+    public boolean doUsersExist(List<String> usernameList) throws UserNotFoundException {
+        boolean result = true;
+        try {
+            for (String username : usernameList) {
+                getUser(username);
+            }
+        } catch (UserNotFoundException exception) {
+            result = false;
+        }
+        return result;
+    }
+
 }

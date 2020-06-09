@@ -23,6 +23,7 @@ public class TransactionService {
     public Transaction addTransaction(Transaction transaction) throws UserNotFoundException {
         logger.info("Adding transaction:".concat(transaction.toString()));
         Balance balance = balanceService.getBalanceBetweenUsers(transaction.getPayeeId(), transaction.getReceiverId());
+        if (balance == null) return null;
         logger.info("Balance between users before transaction:".concat(balance.toString()));
         if (balance.getUserTwo().equals(transaction.getPayeeId())) {
             balance.setAmount(balance.getAmount() + transaction.getAmount());

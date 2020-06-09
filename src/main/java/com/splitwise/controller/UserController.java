@@ -3,6 +3,7 @@ package com.splitwise.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.splitwise.builder.UserBuilder;
+import com.splitwise.exception.UserExistsException;
 import com.splitwise.exception.UserNotFoundException;
 import com.splitwise.service.UserService;
 import com.splitwise.util.SplitWiseConstants;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RequestMapping("splitwise/user")
+@RequestMapping(SplitWiseConstants.USER_ENDPOINT)
 @RestController
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -34,7 +35,7 @@ public class UserController {
         try {
             userService.addUser(new UserBuilder().setUserName(expenseParams.get(SplitWiseConstants.USERNAME)).setEmail(expenseParams.get(SplitWiseConstants.EMAIL)).setPhoneNumber(expenseParams.get(SplitWiseConstants.PHONE)));
             return ResponseEntity.ok("User creation was successful");
-        } catch (Exception e) {
+        } catch (UserExistsException e) {
             return ResponseEntity.badRequest().body("User creation failed - Username exists");
         }
     }
@@ -42,7 +43,11 @@ public class UserController {
     @GetMapping
     private Object getUser(@RequestBody String param) throws JsonProcessingException, UserNotFoundException {
         logger.info("GET USER: ".concat(param));
-        Map<String, String> expenseParams = new ObjectMapper().readValue(param, Map.class);
-        return userService.getUser(expenseParams.get(SplitWiseConstants.USERNAME));
+        Map<String, String> paramMap = new ObjectMapper().readValue(param, Map.class);
+        try {
+            return userService.getUser(paramMap.get(SplitWiseConstants.USERNAME));
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.badRequest().body("User does not exit");
+        }
     }
 }

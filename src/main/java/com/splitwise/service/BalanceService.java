@@ -71,6 +71,7 @@ public class BalanceService {
         logger.info("Searching for existing balance between".concat(userOne).concat(SplitWiseConstants.SEPARATOR).concat(userTwo));
         User user = userService.getUser(userTwo);
         List<String> balanceIdList = balanceBookService.getBalanceBookByBookId(user.getBalanceBookId()).getBalanceIdList();
+        if (balanceIdList == null) return null;
         Balance balance = null;
         for (String balanceId : balanceIdList) {
             if (balanceId.equals("")) return null;
@@ -86,6 +87,7 @@ public class BalanceService {
         Long balanceBookId = userService.getUser(username).getBalanceBookId();
         logger.info("{username, balance bookId}".concat(username) + balanceBookId);
         BalanceBook book = balanceBookService.getBalanceBookByBookId(balanceBookId);
+        if (book.getBalanceIdList() == null) return null;
         for (String balanceId : book.getBalanceIdList()) {
             balanceList.add(getBalanceById(Long.parseLong(balanceId)));
         }

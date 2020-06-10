@@ -36,7 +36,7 @@ public class UserService {
     public User addUser(UserBuilder userBuilder) throws UserExistsException {
         if (userDao.findByUsername(userBuilder.getUserName()) != null)
             throw new UserExistsException("User Exists. PLease choose another username");
-        BalanceBook book = balanceBookService.addBalanceBook(new BalanceBook());
+        BalanceBook book = balanceBookService.addBalanceBook();
         userBuilder.setBalanceBookId(book.getBalanceBookId());
         User user = userBuilder.build();
         return userDao.save(user);

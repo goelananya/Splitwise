@@ -52,8 +52,8 @@ public class BalanceService {
             BalanceBook bookTwo = balanceBookService.getBalanceBookByBookId(userService.getUser(userTwo).getBalanceBookId());
             bookTwo.addBalanceId(balance.getBalanceId());
             logger.info("Balance book updated for:".concat(userTwo));
-            balanceBookService.addBalanceBook(bookOne);
-            balanceBookService.addBalanceBook(bookTwo);
+            balanceBookService.updateBalanceBook(bookOne);
+            balanceBookService.updateBalanceBook(bookTwo);
         } else {
             logger.info("Existing balance between users:".concat(balance.toString()));
             if (balance.getUserOne().equals(userOne)) {

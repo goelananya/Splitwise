@@ -28,8 +28,8 @@ public class BalanceBookService {
         return book;
     }
 
-    public BalanceBook addBalanceBook(BalanceBook balanceBook) {
-        balanceBook = balanceBookDao.save(balanceBook);
+    public BalanceBook addBalanceBook() {
+        BalanceBook balanceBook = balanceBookDao.save(new BalanceBook());
         logger.info("balance book added as:".concat(balanceBook.toString()));
         return balanceBook;
     }
@@ -42,4 +42,9 @@ public class BalanceBookService {
         return balanceBookList;
     }
 
+    public BalanceBook updateBalanceBook(BalanceBook balanceBook) {
+        balanceBook = balanceBookDao.save(balanceBook);
+        logger.info("balance book updated as:".concat(balanceBook.toString()));
+        return balanceBook;
+    }
 }

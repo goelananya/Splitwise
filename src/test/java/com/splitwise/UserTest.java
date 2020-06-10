@@ -1,11 +1,10 @@
-package com.splitwise.user;
+package com.splitwise;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.splitwise.bo.BalanceBook;
 import com.splitwise.bo.User;
 import com.splitwise.builder.UserBuilder;
-import com.splitwise.dao.BalanceBookDao;
 import com.splitwise.dao.UserDao;
 import com.splitwise.exception.UserExistsException;
 import com.splitwise.service.BalanceBookService;
@@ -23,14 +22,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserTest {
 
-    private static User userOne;
-    private static User userTwo;
+    private static User user;
     private static BalanceBook balanceBook;
     private static ObjectMapper objectMapper = new ObjectMapper();
     @Mock
     UserDao userDaoMock;
-    @Mock
-    BalanceBookDao balanceBookDaoMock;
     @Mock
     BalanceBookService balanceBookService;
     @InjectMocks
@@ -38,15 +34,14 @@ public class UserTest {
 
     @BeforeClass
     public static void init() throws JsonProcessingException {
-        userOne = new UserBuilder().setUserName("John").setPhoneNumber("9999988888").setEmail("john@gmail.com").build();
-        userTwo = new UserBuilder().setUserName("John").setPhoneNumber("7777766666").setEmail("otherjohn@gmail.com").build();
+        user = new UserBuilder().setUserName("John").setPhoneNumber("9999988888").setEmail("john@gmail.com").build();
         balanceBook = objectMapper.readValue(TestJson.BALANCE_BOOK_JSON, BalanceBook.class);
     }
 
 
     @Test(expected = UserExistsException.class)
     public void validateAddingDuplicateUser() throws UserExistsException {
-        when(userDaoMock.findByUsername("John")).thenReturn(userOne);
+        when(userDaoMock.findByUsername("John")).thenReturn(user);
         userService.addUser(new UserBuilder().setUserName("John").setPhoneNumber("7777766666").setEmail("otherjohn@gmail.com"));
     }
 

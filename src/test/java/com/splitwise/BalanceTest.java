@@ -1,4 +1,4 @@
-package com.splitwise.user;
+package com.splitwise;
 
 public class BalanceTest {
 }

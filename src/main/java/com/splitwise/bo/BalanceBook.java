@@ -34,12 +34,12 @@ public class BalanceBook {
         else return Arrays.asList(balanceIdList.split(","));
     }
 
-    public void addBalanceId(Long balanceId) {
-        logger.info(balanceId + ":balance adding to balancebook:" + this.balanceBookId);
+    public BalanceBook addBalanceId(Long balanceId) {
+        logger.info("Updating:" + this.toString());
         if (balanceIdList.length() == 0) balanceIdList = Long.toString(balanceId);
         else
             this.balanceIdList = this.balanceIdList.concat(SplitWiseConstants.SEPARATOR).concat(Long.toString(balanceId));
-        logger.info(balanceId + ":balance added to balancebook:" + this.balanceBookId);
         logger.info("Updated balance book:".concat(this.toString()));
+        return this;
     }
 }

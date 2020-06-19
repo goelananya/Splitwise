@@ -1,0 +1,9 @@
+{
+  "amount": "300",
+  "message": "Hello World",
+  "createdBy": "Ned",
+  "participants": "Ned,Cersei,Sansa,Arya",
+  "expenseDate": "06/09/2010",
+  "createDate": "06/06/2020",
+  "splitRatio": "1:2:2:3"
+}

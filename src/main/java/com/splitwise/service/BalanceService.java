@@ -33,38 +33,25 @@ public class BalanceService {
         return balanceDao.findByBalanceId(balanceId);
     }
 
-    public int addBalance(Balance balance) {
-        balanceDao.save(balance);
-        return 1;
+    public Balance addBalance(Balance balance) {
+        return balanceDao.save(balance);
     }
 
-    public int updateBalance(String userOne, String userTwo, Double amount) throws UserNotFoundException {
-        Balance balance = getBalanceBetweenUsers(userOne, userTwo);
+    public Balance updateBalance(String payeeName, String borrowerName, Double amount) throws UserNotFoundException {
+        Balance balance = getBalanceBetweenUsers(payeeName, borrowerName);
         if (balance == null) {
-            logger.info("First transaction between:".concat(userOne).concat(SplitWiseConstants.SEPARATOR).concat(userTwo));
-            balance = new Balance(userTwo, userOne, amount);
-            addBalance(balance);
-            logger.info(balance.toString().concat(":Added to balance table"));
-            logger.info(balance.getBalanceId() + ":Adding to balance book");
-            BalanceBook bookOne = balanceBookService.getBalanceBookByBookId(userService.getUser(userOne).getBalanceBookId());
-            bookOne.addBalanceId(balance.getBalanceId());
-            logger.info("Balance book updated for:".concat(userOne));
-            BalanceBook bookTwo = balanceBookService.getBalanceBookByBookId(userService.getUser(userTwo).getBalanceBookId());
-            bookTwo.addBalanceId(balance.getBalanceId());
-            logger.info("Balance book updated for:".concat(userTwo));
-            balanceBookService.updateBalanceBook(bookOne);
-            balanceBookService.updateBalanceBook(bookTwo);
+            logger.info("First transaction between:".concat(payeeName).concat(SplitWiseConstants.SEPARATOR).concat(borrowerName));
+            balance = new Balance(borrowerName, payeeName, amount);
         } else {
             logger.info("Existing balance between users:".concat(balance.toString()));
-            if (balance.getUserOne().equals(userOne)) {
+            if (balance.getUserOne().equals(payeeName)) {
                 balance.setAmount(balance.getAmount() - amount);
             } else {
                 balance.setAmount(balance.getAmount() + amount);
             }
-            addBalance(balance);
         }
         logger.info("Balance between users after update:".concat(balance.toString()));
-        return 0;
+        return addBalance(balance);
     }
 
     public Balance getBalanceBetweenUsers(String userOne, String userTwo) throws UserNotFoundException {
@@ -92,14 +79,6 @@ public class BalanceService {
             balanceList.add(getBalanceById(Long.parseLong(balanceId)));
         }
         return balanceList;
-    }
-
-    public List<Balance> getAll() {
-        List<Balance> balances = new ArrayList<>();
-        for (Balance balance : balanceDao.findAll()) {
-            balances.add(balance);
-        }
-        return balances;
     }
 
 }

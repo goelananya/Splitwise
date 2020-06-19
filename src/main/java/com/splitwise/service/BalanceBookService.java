@@ -1,6 +1,8 @@
 package com.splitwise.service;
 
+import com.splitwise.bo.Balance;
 import com.splitwise.bo.BalanceBook;
+import com.splitwise.bo.User;
 import com.splitwise.dao.BalanceBookDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,5 +48,14 @@ public class BalanceBookService {
         balanceBook = balanceBookDao.save(balanceBook);
         logger.info("balance book updated as:".concat(balanceBook.toString()));
         return balanceBook;
+    }
+
+    public BalanceBook updateBalanceBook(Long balanceBookId, Long balanceId) {
+        return balanceBookDao.save(updateBalanceBook(getBalanceBookByBookId(balanceBookId).addBalanceId(balanceId)));
+    }
+
+    public void updateBalanceBook(User userOne, User userTwo, Balance balance) {
+        updateBalanceBook(userOne.getBalanceBookId(), balance.getBalanceId());
+        updateBalanceBook(userTwo.getBalanceBookId(), balance.getBalanceId());
     }
 }

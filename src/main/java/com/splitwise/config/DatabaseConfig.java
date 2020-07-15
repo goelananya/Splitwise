@@ -16,8 +16,8 @@ public class DatabaseConfig {
     public DataSource awsDataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.url(SplitWiseConstants.AWS_DB_URL);
-        dataSourceBuilder.username(System.getProperty(SplitWiseConstants.DB_USER_PARAM_KEY));
-        dataSourceBuilder.password(System.getProperty(SplitWiseConstants.DB_PASSWORD_PARAM_KEY));
+        dataSourceBuilder.username("admin");
+        dataSourceBuilder.password("shivshankar");
         return dataSourceBuilder.build();
     }
 }

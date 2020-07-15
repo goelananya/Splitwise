@@ -24,5 +24,7 @@ public class SplitWiseConstants {
     public static final String EXPENSE_ENDPOINT = "splitwise/expense";
     public static final String TRANSACTION_ENDPOINT = "splitwise/transaction";
     public static final String USER_ENDPOINT = "splitwise/user";
-
+    public static final String DB_USER_PARAM_KEY = "dbUser";
+    public static final String DB_PASSWORD_PARAM_KEY = "dbPass";
+    public static final String AWS_DB_URL = "jdbc:mysql://splitwise-itf.cf265tfrj3n0.us-east-2.rds.amazonaws.com:3306/defDB";
 }
